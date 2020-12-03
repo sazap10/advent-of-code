@@ -29,7 +29,7 @@ func runSolutions(solutions solution.Map, year string) {
 		log.Printf("Running solution: %s, URL: %s\n", s.Name(), s.URL())
 
 		beforeRunTime := time.Now()
-		err, result := s.Run()
+		result, err := s.Run()
 		afterRunTime := time.Now()
 		timeDiff := afterRunTime.Sub(beforeRunTime).Milliseconds()
 		if err != nil {

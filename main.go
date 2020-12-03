@@ -6,6 +6,7 @@ import (
 
 	"github.com/bugsnag/bugsnag-go"
 	"github.com/pkg/errors"
+	"github.com/sazap10/advent-of-code/pkg/solution"
 	"github.com/sazap10/advent-of-code/solutions"
 )
 
@@ -17,8 +18,13 @@ func main() {
 		ProjectPackages: []string{"main", "github.com/sazap10/advent-of-code"},
 	})
 
-	solutions := solutions.NewSolutions2020()
+	solutions2020:= solutions.NewSolutions2020()
 
+	runSolutions(solutions2020, "2020")
+}
+
+func runSolutions(solutions solution.Map, year string) {
+	log.Printf("Year %s solutions:\n", year)
 	for _, s := range solutions {
 		log.Printf("Running solution: %s, URL: %s\n", s.Name(), s.URL())
 

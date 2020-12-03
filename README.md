@@ -1,2 +1,5 @@
-# advent-of-code-2020
-Repo for advent of code 2020 solutions
+# Advent of code Golang
+Repo for advent of code solutions in Golang.
+
+## Years:
+* [2020](solutions/2020)

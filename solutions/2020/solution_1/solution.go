@@ -34,9 +34,24 @@ func (s *Solution) Run() (string, error) {
 		return "", errors.Wrapf(err, "Unable to read input file")
 	}
 
-	part1 := s.part1(&numbers)
+	sampleList := []int{
+		1721,
+		979,
+		366,
+		299,
+		675,
+		1456,
+	}
 
-	part2 := s.part2(&numbers)
+	part1 := s.part1(&sampleList)
+
+	part2 := s.part2(&sampleList)
+
+	log.Printf("Sample answers; Part 1: %s, Part 2: %s", part1, part2)
+
+	part1 = s.part1(&numbers)
+
+	part2 = s.part2(&numbers)
 
 	return fmt.Sprintf("Part 1: %s, Part 2: %s", part1, part2), nil
 }
@@ -62,9 +77,8 @@ func (s *Solution) getInput() ([]int, error) {
 }
 
 func (s *Solution) part1(numbers *[]int) string{
-	for index, i := range *numbers {
-		numbersWithoutI := remove(*numbers, index)
-		for _, j := range numbersWithoutI {
+	for _, i := range *numbers {
+		for _, j := range *numbers {
 			if i + j == s.Sum {
 				total := i*j
 				return fmt.Sprint(total)
@@ -75,14 +89,13 @@ func (s *Solution) part1(numbers *[]int) string{
 }
 
 func (s *Solution) part2(numbers *[]int) string{
-	log.Println(len(*numbers))
-	for index, i := range *numbers {
-		numbersWithoutI := remove(*numbers, index)
-		for index2, j := range numbersWithoutI {
-			numbersWithoutJ := remove(numbersWithoutI, index2)
-			for _, k := range numbersWithoutJ {
-				if (i + j + k) == s.Sum {
+	for _, i := range *numbers {
+		for _, j := range *numbers {
+			for _, k := range *numbers {
+				// log.Println(i+j+k)
+				if i + j + k == s.Sum {
 					total := i*j*k
+
 					return fmt.Sprint(total)
 				}
 			}

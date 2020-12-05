@@ -6,7 +6,7 @@ type Solution interface {
 	Name() string
 	URL() string
 	Year() string
-	Run() (error, string)
+	Run() (string, error)
 }
 
 type Label struct {

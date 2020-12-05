@@ -1,4 +1,4 @@
-package solution_1
+package solution1
 
 import (
 	"bufio"
@@ -19,7 +19,7 @@ type Solution struct {
 
 // New instantiates the solution
 func New() *Solution {
-	label := solution.NewLabel("Multiply numbers which sum to 2020", "https://adventofcode.com/2020/day/1", "2020")
+	label := solution.NewLabel("Report Repair", "https://adventofcode.com/2020/day/1", "2020")
 	return &Solution{
 		Label: label,
 		Sum: 2020,
@@ -57,7 +57,7 @@ func (s *Solution) Run() (string, error) {
 }
 
 func (s *Solution) getInput() ([]int, error) {
-	inputFile := "solutions/2020/solution_1/input.txt"
+	inputFile := "solutions/2020/solution1/input.txt"
 	file, err := os.Open(inputFile)
 	if err != nil {
 		return nil, err

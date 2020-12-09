@@ -15,6 +15,12 @@ type Solution struct {
 	solution.Label
 }
 
+// CustomForm holds the data of the yes answer to questions on the custom form
+type CustomForm []rune
+
+// CustomFormGroup holds the data for a group of CustomForms
+type CustomFormGroup []CustomForm
+
 // New instantiates the solution
 func New() *Solution {
 	label := solution.NewLabel("Custom Customs", "https://adventofcode.com/2020/day/6", "2020")
@@ -48,29 +54,31 @@ func (s *Solution) Run() (string, error) {
 	return fmt.Sprintf("Part 1: %s, Part 2: %s", part1, part2), nil
 }
 
-func (s *Solution) getInput(path string) ([]map[rune]int, error) {
+func (s *Solution) getInput(path string) ([]CustomFormGroup, error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
 
-	var output []map[rune]int
-	block := make(map[rune]int)
+	var output []CustomFormGroup
+	block := CustomFormGroup{}
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		l := scanner.Text()
 
 		if len(l) != 0 {
+			f := CustomForm{}
 			for _, c := range l {
-				block[c]++
+				f = append(f, c)
 			}
+			block = append(block, f)
 			continue
 		}
 
 		if len(l) == 0 {
 			output = append(output, block)
-			block = make(map[rune]int)
+			block =  CustomFormGroup{}
 			continue
 		}
 	}
@@ -80,13 +88,13 @@ func (s *Solution) getInput(path string) ([]map[rune]int, error) {
 	return output, scanner.Err()
 }
 
-func (s *Solution) part1(input []map[rune]int) string {
+func (s *Solution) part1(input []CustomFormGroup) string {
 	sumCounts := sumAnyQuestionAnsweredYes(input)
 
 	return fmt.Sprint(sumCounts)
 }
 
-func (s *Solution) part2(input []map[rune]int) string {
+func (s *Solution) part2(input []CustomFormGroup) string {
 	sumCounts := sumEveryQuestionAnsweredYes(input)
 
 	return fmt.Sprint(sumCounts)
@@ -94,20 +102,50 @@ func (s *Solution) part2(input []map[rune]int) string {
 
 // sumAnyQuestionAnsweredYes calculates the sum of anyone answering
 // a question with a yes
-func sumAnyQuestionAnsweredYes(forms []map[rune]int) int {
+func sumAnyQuestionAnsweredYes(formGroups []CustomFormGroup) int {
 	total := 0
-	for _, f := range forms {
-		total += len(f)
+	for _, fg := range formGroups {
+		answers := make(map[rune]int)
+		for _, f := range fg {
+			for _, r := range f {
+				answers[r]++
+			}
+		}
+		total += len(answers)
 	}
 	return total
 }
 
 // sumEveryQuestionAnsweredYes calculates the sum of everyone answering
 // a question with a yes
-func sumEveryQuestionAnsweredYes(forms []map[rune]int) int {
+func sumEveryQuestionAnsweredYes(formGroups []CustomFormGroup) int {
 	total := 0
-	for _, f := range forms {
-		total += len(f)
+	for _, fg := range formGroups {
+		answers := []rune{}
+		for i, f := range fg {
+			if i == 0 {
+				answers = f
+			} else {
+				answers = intersect(answers, f)
+			}
+		}
+		total += len(answers)
 	}
 	return total
+}
+
+func intersect(a, b []rune) (c []rune){
+	m := make(map[rune]bool)
+
+	for _, item := range a {
+		m[item] = true
+	}
+	
+	for _, item := range b {
+		if _, ok := m[item]; ok {
+			c = append(c, item)
+		}
+	}
+
+	return
 }

@@ -18,14 +18,14 @@ func main() {
 		ProjectPackages: []string{"main", "github.com/sazap10/advent-of-code"},
 	})
 
-	solutions2020:= solutions.NewSolutions2020()
+	solutions2020 := solutions.NewSolutions2020()
 
 	runSolutions(solutions2020, "2020")
 }
 
-func runSolutions(solutions solution.Map, year string) {
+func runSolutions(solutionsMap solution.Map, year string) {
 	log.Printf("Year %s solutions:\n", year)
-	for _, s := range solutions {
+	for _, s := range solutionsMap {
 		log.Printf("Running solution: %s, URL: %s\n", s.Name(), s.URL())
 
 		beforeRunTime := time.Now()

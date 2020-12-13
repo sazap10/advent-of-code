@@ -11,14 +11,14 @@ type Solution interface {
 
 type Label struct {
 	SolutionName string
-	Url          string
+	ProblemURL   string
 	SolutionYear string
 }
 
 func NewLabel(name, url, year string) Label {
 	return Label{
 		SolutionName: name,
-		Url:          url,
+		ProblemURL:   url,
 		SolutionYear: year,
 	}
 }
@@ -30,7 +30,7 @@ func (l *Label) Name() string {
 
 // URL provides the url to the problem
 func (l *Label) URL() string {
-	return l.Url
+	return l.ProblemURL
 }
 
 // Year provides the year the solution is for

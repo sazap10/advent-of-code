@@ -48,6 +48,11 @@ func New() *Solution {
 // Run contains the logic to solving the problem
 func (s *Solution) Run() (string, error) {
 	sampleInput, err := s.getInput("solutions/2020/solution5/sample.txt")
+
+	if err != nil {
+		return "", errors.Wrapf(err, "Unable to read sample input file")
+	}
+
 	input, err := s.getInput("solutions/2020/solution5/input.txt")
 
 	if err != nil {
@@ -138,10 +143,9 @@ func findRow(boardingPassRow string) int {
 			}
 			currentRow.MinRow = math.Ceil((currentRow.MinRow + currentRow.MaxRow) / 2)
 		}
-
 	}
 
-	return int(row)
+	return row
 }
 
 func findColumn(boardingPassColumn string) int {
@@ -167,10 +171,9 @@ func findColumn(boardingPassColumn string) int {
 			}
 			currentcolumn.Min = math.Ceil((currentcolumn.Min + currentcolumn.Max) / 2)
 		}
-
 	}
 
-	return int(column)
+	return column
 }
 
 func findMissing(arr []SeatLocation, size int) int {

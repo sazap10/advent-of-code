@@ -42,6 +42,11 @@ func New() *Solution {
 // Run contains the logic to solving the problem
 func (s *Solution) Run() (string, error) {
 	sampleInput, err := s.getInput("solutions/2020/solution4/sample.txt")
+
+	if err != nil {
+		return "", errors.Wrapf(err, "Unable to read sample input file")
+	}
+
 	input, err := s.getInput("solutions/2020/solution4/input.txt")
 
 	if err != nil {
@@ -74,12 +79,15 @@ func (s *Solution) getInput(path string) ([]Passport, error) {
 	for scanner.Scan() {
 		l := scanner.Text()
 
-		if len(l) != 0 {
+		if l != "" {
 			kvFields := strings.Fields(l)
 			for _, f := range kvFields {
 				pField := strings.Split(f, ":")
 				if len(pField) == 2 {
-					setField(&block, pField[0], pField[1])
+					err := setField(&block, pField[0], pField[1])
+					if err != nil {
+						return output, errors.New(fmt.Sprintf("Unable to set field %v in block", pField))
+					}
 				} else {
 					return output, errors.New(fmt.Sprintf("Wrong number of fields in: %v", pField))
 				}
@@ -87,7 +95,7 @@ func (s *Solution) getInput(path string) ([]Passport, error) {
 			continue
 		}
 
-		if len(l) == 0 {
+		if l == "" {
 			output = append(output, block)
 			block = Passport{}
 			continue
@@ -131,8 +139,8 @@ func (s *Solution) part2(input []Passport) string {
 
 	hairColourRegex := regexp.MustCompile(`^#[0-9a-z]{6}$`)
 	eyeColourRegex := regexp.MustCompile(`^amb|blu|brn|gry|grn|hzl|oth$`)
-	passportIDRegex := regexp.MustCompile(`^[0-9]{9}$`)
-	heightRegex := regexp.MustCompile(`^([1-9][0-9]*)(cm|in)$`)
+	passportIDRegex := regexp.MustCompile(`^\d{9}$`)
+	heightRegex := regexp.MustCompile(`^([1-9]\d*)(cm|in)$`)
 
 	for _, p := range input {
 		if p.BirthYear < 1920 || p.BirthYear > 2002 {
@@ -169,16 +177,15 @@ func (s *Solution) part2(input []Passport) string {
 			log.Printf("Unable to convert %s into int", heightFields[1])
 		}
 
-		if heightFields[2] == "in" && ( heightNum < 59 || heightNum > 76) {
+		if heightFields[2] == "in" && (heightNum < 59 || heightNum > 76) {
 			continue
 		}
 
-		if heightFields[2] == "cm" && ( heightNum < 150 || heightNum > 193) {
+		if heightFields[2] == "cm" && (heightNum < 150 || heightNum > 193) {
 			continue
 		}
 
 		valid++
-
 	}
 
 	return fmt.Sprint(valid)
@@ -207,7 +214,7 @@ func setField(item interface{}, fieldName string, value string) error {
 	case reflect.Int:
 		x, err := strconv.Atoi(value)
 		if err != nil {
-			return fmt.Errorf("Unable to convert %s into integer", value)
+			return fmt.Errorf("unable to convert %s into integer", value)
 		}
 		kValue := reflect.ValueOf(x)
 		fieldVal.Set(kValue)
@@ -215,7 +222,7 @@ func setField(item interface{}, fieldName string, value string) error {
 		if fieldVal.Type().Elem().Kind() == reflect.Int {
 			x, err := strconv.Atoi(value)
 			if err != nil {
-				return fmt.Errorf("Unable to convert %s into integer", value)
+				return fmt.Errorf("unable to convert %s into integer", value)
 			}
 			kValue := reflect.ValueOf(&x)
 			fieldVal.Set(kValue)

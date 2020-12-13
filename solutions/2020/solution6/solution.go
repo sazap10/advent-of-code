@@ -67,7 +67,7 @@ func (s *Solution) getInput(path string) ([]CustomFormGroup, error) {
 	for scanner.Scan() {
 		l := scanner.Text()
 
-		if len(l) != 0 {
+		if l != "" {
 			f := CustomForm{}
 			for _, c := range l {
 				f = append(f, c)
@@ -76,9 +76,9 @@ func (s *Solution) getInput(path string) ([]CustomFormGroup, error) {
 			continue
 		}
 
-		if len(l) == 0 {
+		if l == "" {
 			output = append(output, block)
-			block =  CustomFormGroup{}
+			block = CustomFormGroup{}
 			continue
 		}
 	}
@@ -134,13 +134,13 @@ func sumEveryQuestionAnsweredYes(formGroups []CustomFormGroup) int {
 	return total
 }
 
-func intersect(a, b []rune) (c []rune){
+func intersect(a, b []rune) (c []rune) {
 	m := make(map[rune]bool)
 
 	for _, item := range a {
 		m[item] = true
 	}
-	
+
 	for _, item := range b {
 		if _, ok := m[item]; ok {
 			c = append(c, item)

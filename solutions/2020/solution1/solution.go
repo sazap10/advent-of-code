@@ -22,7 +22,7 @@ func New() *Solution {
 	label := solution.NewLabel("Report Repair", "https://adventofcode.com/2020/day/1", "2020")
 	return &Solution{
 		Label: label,
-		Sum: 2020,
+		Sum:   2020,
 	}
 }
 
@@ -69,18 +69,18 @@ func (s *Solution) getInput() ([]int, error) {
 	for scanner.Scan() {
 		x, err := strconv.Atoi(scanner.Text())
 		if err != nil {
-				return lines, err
+			return lines, err
 		}
 		lines = append(lines, x)
 	}
 	return lines, scanner.Err()
 }
 
-func (s *Solution) part1(numbers *[]int) string{
+func (s *Solution) part1(numbers *[]int) string {
 	for _, i := range *numbers {
 		for _, j := range *numbers {
-			if i + j == s.Sum {
-				total := i*j
+			if i+j == s.Sum {
+				total := i * j
 				return fmt.Sprint(total)
 			}
 		}
@@ -88,13 +88,12 @@ func (s *Solution) part1(numbers *[]int) string{
 	return "Could not find answer"
 }
 
-func (s *Solution) part2(numbers *[]int) string{
+func (s *Solution) part2(numbers *[]int) string {
 	for _, i := range *numbers {
 		for _, j := range *numbers {
 			for _, k := range *numbers {
-				// log.Println(i+j+k)
-				if i + j + k == s.Sum {
-					total := i*j*k
+				if i+j+k == s.Sum {
+					total := i * j * k
 
 					return fmt.Sprint(total)
 				}
@@ -102,10 +101,4 @@ func (s *Solution) part2(numbers *[]int) string{
 		}
 	}
 	return "Could not find answer"
-}
-
-func remove(s []int, i int) []int {
-	s[i] = s[len(s)-1]
-	// We do not need to put s[i] at the end, as it will be discarded anyway
-	return s[:len(s)-1]
 }

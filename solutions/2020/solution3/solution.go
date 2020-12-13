@@ -13,22 +13,22 @@ import (
 // Solution holds any data for the program
 type Solution struct {
 	solution.Label
-	TreeCharacter byte
+	TreeCharacter      byte
 	OpenSpaceCharacter byte
 }
 
 // Input holds data parsed from the input
 type Input struct {
 	PatternLength int
-	PatternBytes [][]byte
+	PatternBytes  [][]byte
 }
 
 // New instantiates the solution
 func New() *Solution {
 	label := solution.NewLabel("Toboggan Trajectory", "https://adventofcode.com/2020/day/3", "2020")
 	return &Solution{
-		Label: label,
-		TreeCharacter: '#',
+		Label:              label,
+		TreeCharacter:      '#',
 		OpenSpaceCharacter: '.',
 	}
 }
@@ -36,6 +36,11 @@ func New() *Solution {
 // Run contains the logic to solving the problem
 func (s *Solution) Run() (string, error) {
 	sampleInput, err := s.getInput("solutions/2020/solution3/sample.txt")
+
+	if err != nil {
+		return "", errors.Wrapf(err, "Unable to read sample input file")
+	}
+
 	input, err := s.getInput("solutions/2020/solution3/input.txt")
 
 	if err != nil {
@@ -74,13 +79,13 @@ func (s *Solution) getInput(path string) (Input, error) {
 	return output, scanner.Err()
 }
 
-func (s *Solution) part1(input Input) string{
+func (s *Solution) part1(input Input) string {
 	trees := treesEncountered(input, 3, 1, s.TreeCharacter)
 
 	return fmt.Sprint(trees)
 }
 
-func (s *Solution) part2(input Input) string{
+func (s *Solution) part2(input Input) string {
 	trees := treesEncountered(input, 1, 1, s.TreeCharacter)
 	trees *= treesEncountered(input, 3, 1, s.TreeCharacter)
 	trees *= treesEncountered(input, 5, 1, s.TreeCharacter)
@@ -92,7 +97,7 @@ func (s *Solution) part2(input Input) string{
 func traverse(input [][]byte, startingX, startingY, patternLength, movementX, movementY int) (byte, int, int) {
 	positionX := (startingX + movementX) % patternLength
 	positionY := (startingY + movementY)
-	return input[positionY][positionX],positionX, positionY
+	return input[positionY][positionX], positionX, positionY
 }
 
 func treesEncountered(input Input, movementX, movementY int, treeCharacter byte) int {

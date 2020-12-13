@@ -1,0 +1,103 @@
+
+linters-settings:
+  errcheck:
+    # report about not checking of errors in type assertions: `a := b.(MyStruct)`;
+    # default is false: such cases aren't reported by default.
+    check-type-assertions: true
+  gocyclo:
+    # minimal code complexity to report
+    min-complexity: 20
+  funlen:
+    lines: 100
+    statements: 60
+  goconst:
+    min-len: 12
+  lll:
+    line-length: 200
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
+    disabled-checks:
+      - paramTypeCombine
+      - unnamedResult
+
+    settings:
+      hugeParam:
+        sizeThreshold: 250
+  maligned:
+    suggest-new: true
+  misspell:
+    locale: GB
+  whitespace:
+    multi-func: true # Enforces newlines (or comments) after every multi-line function signature
+
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - deadcode
+    - depguard
+    - dogsled
+    - dupl
+    - errcheck
+    - funlen
+    - gochecknoinits
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofmt
+    - golint
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - interfacer
+    - lll
+    - misspell
+    - nakedret
+    - rowserrcheck
+    - scopelint
+    - staticcheck
+    - structcheck
+    - stylecheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - varcheck
+    - whitespace
+    - gochecknoglobals
+
+  # don't enable:
+  # - goimports (keep getting false positives "File is not `goimports`-ed with -local github.com/bugsnag")
+  # - gocognit
+  # - godox
+  # - maligned
+  # - prealloc
+  # - gomnd
+
+issues:
+  exclude:
+    - Error return value of `bugsnag.Notify` is not checked
+    # gosec: Duplicated errcheck checks
+    - G104
+    # errcheck: Almost all programs ignore errors on these functions and in most cases it's ok
+    - Error return value of .((os\.)?std(out|err)\..*|.*Close|.*Flush|os\.Remove(All)?|.*printf?|os\.(Un)?Setenv). is not checked
+    # golint: Only require comments on methods
+    - exported (const|var) .* should have comment or be unexported
+    - comment on exported (const|var) .* should be of the form
+
+  exclude-rules:
+    # Exclude some linters from running on tests files.
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - dupl
+        - scopelint
+        - gochecknoglobals

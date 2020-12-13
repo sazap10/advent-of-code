@@ -49,10 +49,10 @@ func Test_boardingPassToSeatLocation(t *testing.T) {
 		want         SeatLocation
 		wantErr      bool
 	}{
-		{boardingPass: "FBFBBFFRLR", want: SeatLocation{Row: 44, Column: 5}},
-		{boardingPass: "BFFFBBFRRR", want: SeatLocation{Row: 70, Column: 7}},
-		{boardingPass: "FFFBBBFRRR", want: SeatLocation{Row: 14, Column: 7}},
-		{boardingPass: "BBFFBBFRLL", want: SeatLocation{Row: 102, Column: 4}},
+		{boardingPass: "FBFBBFFRLR", want: SeatLocation{Row: 44, Column: 5, ID: 357}},
+		{boardingPass: "BFFFBBFRRR", want: SeatLocation{Row: 70, Column: 7, ID: 567}},
+		{boardingPass: "FFFBBBFRRR", want: SeatLocation{Row: 14, Column: 7, ID: 119}},
+		{boardingPass: "BBFFBBFRLL", want: SeatLocation{Row: 102, Column: 4, ID: 820}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.boardingPass, func(t *testing.T) {

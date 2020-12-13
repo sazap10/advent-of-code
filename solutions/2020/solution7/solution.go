@@ -69,8 +69,6 @@ func (s *Solution) getInput(path string) (map[BagKey][]BagValue, error) {
 		return nil, err
 	}
 	defer file.Close()
-	// light red bags contain 1 bright white bag, 2 muted yellow bags.
-	// dotted black bags contain no other bags.
 	var lineRe = regexp.MustCompile(`([a-z]+) ([a-z]+) bags contain (.*)\.`)
 	var containRe = regexp.MustCompile(`([1-9][0-9]*) ([a-z]+) ([a-z]+) bags`)
 	output := make(map[BagKey][]BagValue)

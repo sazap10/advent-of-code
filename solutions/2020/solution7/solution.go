@@ -43,12 +43,10 @@ func (s *Solution) Run() (string, error) {
 		return "", errors.Wrapf(err, "Unable to read sample file")
 	}
 
-	// input, err := s.getInput("solutions/2020/solution7/input.txt")
-	// if err != nil {
-	// 	return "", errors.Wrapf(err, "Unable to read input file")
-	// }
-
-	log.Println(sampleInput)
+	input, err := s.getInput("solutions/2020/solution7/input.txt")
+	if err != nil {
+		return "", errors.Wrapf(err, "Unable to read input file")
+	}
 
 	part1 := s.part1(sampleInput)
 
@@ -56,9 +54,9 @@ func (s *Solution) Run() (string, error) {
 
 	log.Printf("Sample answers; Part 1: %s, Part 2: %s", part1, part2)
 
-	// part1 = s.part1(input)
+	part1 = s.part1(input)
 
-	// part2 = s.part2(input)
+	part2 = s.part2(input)
 
 	return fmt.Sprintf("Part 1: %s, Part 2: %s", part1, part2), nil
 }
@@ -70,7 +68,7 @@ func (s *Solution) getInput(path string) (map[BagKey][]BagValue, error) {
 	}
 	defer file.Close()
 	var lineRe = regexp.MustCompile(`([a-z]+) ([a-z]+) bags contain (.*)\.`)
-	var containRe = regexp.MustCompile(`([1-9][0-9]*) ([a-z]+) ([a-z]+) bags`)
+	var containRe = regexp.MustCompile(`([1-9]\d*) ([a-z]+) ([a-z]+) bag(s)?`)
 	output := make(map[BagKey][]BagValue)
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -87,28 +85,26 @@ func (s *Solution) getInput(path string) (map[BagKey][]BagValue, error) {
 
 		containingBags := []BagValue{}
 		for _, b := range containingBagsList {
-			if containRe.MatchString(b) {
-				bagMatch := containRe.FindStringSubmatch(b)
-				log.Println(bagMatch)
-				number, err := strconv.Atoi(bagMatch[1])
-				if err != nil {
-					return output, err
-				}
-				bagValue := BagValue{
-					Number: number,
-					Key: BagKey{
-						Adjective: bagMatch[2],
-						Colour:    bagMatch[3],
-					},
-				}
-
-				containingBags = append(containingBags, bagValue)
+			if !containRe.MatchString(b) {
+				continue
+			}
+			bagMatch := containRe.FindStringSubmatch(b)
+			number, err := strconv.Atoi(bagMatch[1])
+			if err != nil {
+				return output, err
+			}
+			bagValue := BagValue{
+				Number: number,
+				Key: BagKey{
+					Adjective: bagMatch[2],
+					Colour:    bagMatch[3],
+				},
 			}
 
+			containingBags = append(containingBags, bagValue)
 		}
 
 		output[key] = containingBags
-
 	}
 	return output, scanner.Err()
 }
@@ -116,11 +112,61 @@ func (s *Solution) getInput(path string) (map[BagKey][]BagValue, error) {
 func (s *Solution) part1(input map[BagKey][]BagValue) string {
 	sumCounts := 0
 
+	bagToCount := BagKey{
+		Colour:    "gold",
+		Adjective: "shiny",
+	}
+
+	for k, v := range input {
+		if k != bagToCount {
+			sumCounts += bagContainCount(input, v, bagToCount)
+		}
+	}
+
 	return fmt.Sprint(sumCounts)
 }
 
 func (s *Solution) part2(input map[BagKey][]BagValue) string {
-	sumCounts := 0
+	bagToCount := BagKey{
+		Colour:    "gold",
+		Adjective: "shiny",
+	}
+
+	sumCounts := bagCount(input, input[bagToCount], bagToCount)
 
 	return fmt.Sprint(sumCounts)
+}
+
+func bagContainCount(mapInput map[BagKey][]BagValue, input []BagValue, bagToCount BagKey) int {
+	count := 0
+
+	if len(input) == 0 {
+		return 0
+	}
+
+	for _, v := range input {
+		if v.Key == bagToCount {
+			return 1
+		}
+
+		if count == 0 {
+			count = bagContainCount(mapInput, mapInput[v.Key], bagToCount)
+		}
+	}
+
+	return count
+}
+
+func bagCount(mapInput map[BagKey][]BagValue, input []BagValue, bagToCount BagKey) int {
+	count := 0
+
+	if len(input) == 0 {
+		return 0
+	}
+
+	for _, v := range input {
+		count += v.Number + v.Number*bagCount(mapInput, mapInput[v.Key], bagToCount)
+	}
+
+	return count
 }

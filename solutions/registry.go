@@ -10,6 +10,7 @@ import (
 	"github.com/sazap10/advent-of-code/solutions/2020/solution6"
 	"github.com/sazap10/advent-of-code/solutions/2020/solution7"
 	"github.com/sazap10/advent-of-code/solutions/2020/solution8"
+	"github.com/sazap10/advent-of-code/solutions/2020/solution9"
 )
 
 // NewSolutions2020 generates the list of solutions to run for 2020 problems
@@ -24,6 +25,7 @@ func NewSolutions2020() solution.Map {
 	addSolution(output, solution6.New())
 	addSolution(output, solution7.New())
 	addSolution(output, solution8.New())
+	addSolution(output, solution9.New())
 
 	return output
 }

@@ -6,6 +6,8 @@ github.com/bugsnag/bugsnag-go v1.7.0 h1:hnIDQHL8gB6U49obs7KopewG07aHZG53Jb9/8MGO
 github.com/bugsnag/bugsnag-go v1.7.0/go.mod h1:2oa8nejYd4cQ/b0hMIopN0lCRxU0bueqREvZLWFrtK8=
 github.com/bugsnag/bugsnag-go v1.8.0 h1:XnZesafFtcqPryuLUNsWlaTWhdaOcDT66tiorzWVdu4=
 github.com/bugsnag/bugsnag-go v1.8.0/go.mod h1:2oa8nejYd4cQ/b0hMIopN0lCRxU0bueqREvZLWFrtK8=
+github.com/bugsnag/bugsnag-go v1.9.0 h1:9XNqa3y5Ftr/GRW7J1AnOFgflY8PtNJT6xSyNdQPqUk=
+github.com/bugsnag/bugsnag-go v1.9.0/go.mod h1:2oa8nejYd4cQ/b0hMIopN0lCRxU0bueqREvZLWFrtK8=
 github.com/bugsnag/panicwrap v1.2.0 h1:OzrKrRvXis8qEvOkfcxNcYbOd2O7xXS2nnKMEMABFQA=
 github.com/bugsnag/panicwrap v1.2.0/go.mod h1:D/8v3kj0zr8ZAKg1AQ6crr+5VwKN5eIywRkfhyM/+dE=
 github.com/gofrs/uuid v3.3.0+incompatible h1:8K4tyRfvU1CYPgJsveYFQMhpFd/wXNM7iK6rR7UHz84=

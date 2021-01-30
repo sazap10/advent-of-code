@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/bugsnag/bugsnag-go"
+	"github.com/bugsnag/bugsnag-go/v2"
 	"github.com/pkg/errors"
 	"github.com/sazap10/advent-of-code/pkg/solution"
 	"github.com/sazap10/advent-of-code/solutions"

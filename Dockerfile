@@ -20,7 +20,7 @@ RUN go build -o advent-of-code
 # FINAL IMAGE
 ################################################################################
 
-FROM alpine:3.15
+FROM alpine:3.16
 
 WORKDIR /app
 COPY --from=builder /build/advent-of-code ./

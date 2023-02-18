@@ -2,7 +2,7 @@
 # BUILDER IMAGE
 ################################################################################
 
-FROM golang:1.18-alpine as builder
+FROM golang:1.20-alpine as builder
 
 RUN apk add --no-cache git 
 
